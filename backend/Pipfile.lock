@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "8cd3633a64f7a3c5ee373a5a7d1fe982e825ad4bfc06e5ff2b5c1f99d4e1822a"
+            "sha256": "a84bc4970266b053fc22f493fa84bf26f1fa7e0b72e5c00069a9264b3166c896"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -55,6 +55,10 @@
             ],
             "markers": "python_version ~= '3.7'",
             "version": "==5.2.0"
+        },
+        "cb-camera": {
+            "editable": true,
+            "path": "./modules/camera"
         },
         "cb-django-push-notifications": {
             "editable": true,
