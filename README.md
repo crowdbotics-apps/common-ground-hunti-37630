@@ -66,6 +66,7 @@ This section will show any installed modules you add from the Storyboard Modules
 - [react-native-splash](modules/splash)
 - [firebase-push-notifications]()
 - [payments]()
+- [react-native-user-profile](modules/user-profile)
 
 # Getting started: Frontend
 
