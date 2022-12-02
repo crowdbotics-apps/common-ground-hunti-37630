@@ -1,5 +1,5 @@
 {
-    "name": "@screens/bank-account-details",
+    "name": "@screens/fingerprint-login-pop-up",
     "version": "1.0.0",
     "description": "",
     "private": true,
