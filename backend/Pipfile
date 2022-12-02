@@ -39,3 +39,4 @@ cb-firebase-push-notifications = {editable = true, path = "./modules/firebase_pu
 cb-payments = {editable = true, path = "./modules/payments"}
 cb-terms-and-conditions = {editable = true, path = "./modules/terms_and_conditions"}
 cb-privacy-policy = {editable = true, path = "./modules/privacy_policy"}
+cb-django-signature = {editable = true, path = "./modules/django_signature"}
