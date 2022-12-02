@@ -16,6 +16,7 @@
     "@modules/firebase-push-notifications": "file:./modules/firebase-push-notifications",
     "@modules/maps": "file:./modules/maps/",
     "@modules/payments": "file:./modules/payments",
+    "@modules/privacy-policy": "file:./modules/privacy-policy",
     "@modules/social-login": "file:./modules/social-login/",
     "@modules/splash": "file:./modules/splash/",
     "@modules/terms-and-conditions": "file:./modules/terms-and-conditions",
