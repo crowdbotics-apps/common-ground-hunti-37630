@@ -1,286 +1,292 @@
 import React, { useState, useEffect } from "react";
-import {
-  Text,
-  StyleSheet,
-  View,
-  Image,
-  ScrollView,
-  TextInput
-} from "react-native";
+import { Text, View, StyleSheet, Pressable, Image } from "react-native";
 
-const DirectMessagesScreen = (params) => {
-  const [message, setMessage] = useState("");
-  const [user1, setUser1] = useState({});
-  const [user2, setUser2] = useState({});
-  const [conversation, setConversation] = useState([]);
+const LinkedBankAccountsDetails = () => {
+  const [selectedTab, setSelectedTab] = useState(0);
+  const [bankAccounts, setBankAccounts] = useState([]);
+  const [selectedBankAccounts, setSelectedBankAccounts] = useState([]);
   useEffect(() => {
-    setUser1({
-      name: "User1",
-      image: require("./assets/profile1.png"),
-      isOnline: true
-    });
-    setUser2({
-      name: "Username",
-      image: require("./assets/profile2.png"),
-      isOnline: true
-    });
-  }, []);
-  useEffect(() => {
-    setConversation([
+    setBankAccounts([
       {
-        id: 1,
-        sender: user1,
-        text: "lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-        sentTime: "12:00 PM"
+        name: "Account name",
+        balane: "$12,215.25"
       },
       {
-        id: 2,
-        sender: user2,
-        text: "lorem ipsum dolor sit amet",
-        sentTime: "01:15 PM"
+        name: "Account name",
+        balane: "$12,215.25"
       },
       {
-        id: 3,
-        sender: user2,
-        text: "lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-        sentTime: "01:15 PM"
+        name: "Account name",
+        balane: "$12,215.25"
       },
       {
-        id: 4,
-        sender: user1,
-        text: "lorem ipsum dolor sit amet",
-        sentTime: "01:15 PM"
-      },
-      {
-        id: 5,
-        sender: user2,
-        text: "lorem ipsum dolor sit amet",
-        sentTime: "01:15 PM"
-      },
-      {
-        id: 6,
-        sender: user1,
-        text: "lorem ipsum dolor sit amet",
-        sentTime: "01:15 PM"
+        name: "Account name",
+        balane: "$12,215.25"
       }
     ]);
-  }, [user1, user2]);
+  }, []);
+  const handleSelect = item => {
+    if (selectedBankAccounts.includes(item)) {
+      setSelectedBankAccounts(selectedBankAccounts.filter(i => i !== item));
+    } else {
+      setSelectedBankAccounts([...selectedBankAccounts, item]);
+    }
+  };
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <View style={styles.headerImage}>
-          <Image source={user2.image} style={styles.headerImage} />
-          {(user2.isOnline && (
-            <Image
-              source={require("./assets/onlineIcon.png")}
-              style={styles.activityIconHeader}
+      <Text style={styles.heading}>Account Details</Text>
+      <Text style={styles.subHeading}>Choose</Text>
+      <TabView
+        tabTitles={["Personal", "Investment"]}
+        selected={selectedTab}
+        onPress={setSelectedTab}
+        style={styles.tabView}
+      />
+      <Text style={styles.listText}>List of all accounts</Text>
+      {bankAccounts.map((account, index) => (
+        <View key={index}>
+          <View style={styles.nameContainer}>
+            <Text style={styles.name}>{account.name}</Text>
+            <Checkbox
+              value={selectedBankAccounts.includes(account)}
+              setValue={() => handleSelect(account)}
             />
-          )) ||
-            null}
+          </View>
+          <View style={styles.balanceContainer}>
+            <Text>Ammount</Text>
+            <Text style={styles.balance}>{account.balane}</Text>
+          </View>
         </View>
-        <View style={styles.profileName}>
-          <Text style={styles.profileNameText}>{user2.name}</Text>
-        </View>
-        <View style={styles.icons}>
-          <Image source={require("./assets/phoneIcon.png")} />
-          <Image source={require("./assets/videoIcon.png")} />
-        </View>
-      </View>
-      <ScrollView style={styles.body}>
-        {conversation.map((message, index) => (
-          <ConversationElement message={message} key={index} />
-        ))}
-      </ScrollView>
-      <View style={styles.footer}>
-        <View style={styles.camera}>
-          <Image
-            source={require("./assets/cameraIcon.png")}
-            style={styles.cameraIcon}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder="Type a message"
-            onChangeText={(text) => setMessage(text)}
-            value={message}
-            autoCorrect={false}
-            autoCapitalize="none"
-            autoFocus={false}
-          />
-          <Image
-            source={require("./assets/emojiIcon.png")}
-            style={styles.smileyIcon}
-          />
-          <Image
-            source={require("./assets/voiceIcon.png")}
-            style={styles.voiceIcon}
-          />
-        </View>
-        <View style={styles.send}>
-          <Image
-            source={require("./assets/sendIcon.png")}
-            style={styles.sendIcon}
-          />
-        </View>
-      </View>
+      ))}
+      <Button buttonText="Select Account" style={styles.button} />
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
+    paddingHorizontal: 20
   },
-  header: {
+  heading: {
+    fontSize: 20,
+    color: "#000"
+  },
+  subHeading: {
+    fontSize: 14,
+    color: "#999999"
+  },
+  tabView: {
+    width: "70%"
+  },
+  listText: {
+    marginVertical: 20
+  },
+  nameContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 10,
-    marginHorizontal: 20,
-    backgroundColor: "#F1F1F1",
-    borderRadius: 10,
-    height: 50
+    marginVertical: 10,
+    paddingHorizontal: 10
   },
-  headerImage: {
-    flex: 1,
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    resizeMode: "contain",
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  profileName: {
-    flex: 2
-  },
-  profileNameText: {
-    fontSize: 16
-  },
-  icons: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-around"
-  },
-  activityIconHeader: {
-    width: 10,
-    height: 10,
-    resizeMode: "contain",
-    position: "absolute",
-    right: 20,
-    top: 25
-  },
-  body: {
-    flex: 1,
-    marginTop: 10
-  },
-  footer: {
+  balanceContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 10,
-    margin: 10
+    paddingVertical: 12,
+    borderColor: "#ccc",
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    borderRadius: 10
   },
-  inputContainer: {
-    width: "80%"
+  balance: {
+    fontSize: 14,
+    color: "#12D790"
   },
-  input: {
-    paddingLeft: 15,
-    borderRadius: 10,
-    backgroundColor: "#F1F1F1"
-  },
-  smileyIcon: {
-    position: "absolute",
-    right: 40,
-    top: 10,
-    opacity: 0.5
-  },
-  voiceIcon: {
-    top: 14,
-    right: 15,
-    position: "absolute",
-    opacity: 0.5
+  button: {
+    flex: 1,
+    justifyContent: "flex-end",
+    marginBottom: 20
   }
 });
-export default DirectMessagesScreen;
 
-const ConversationElement = ({ message }) => {
-  const boxAlignment = {
-    flexDirection: message.sender.name === "User1" ? "row" : "row-reverse"
+export default LinkedBankAccountsDetails;
+
+const TabView = ({
+  tabTitles,
+  selected,
+  onPress,
+  tabColor,
+  backgroundColor,
+  style,
+  icons
+}) => {
+  const tabColorStyle = {
+    backgroundColor: tabColor || "#fff"
   };
-  const messageTextContainer = {
-    marginLeft: message.sender.name === "User1" ? 20 : 0,
-    marginRight: message.sender.name === "User1" ? 0 : 20,
-    backgroundColor: message.sender.name === "User1" ? "#FCF1D6" : "#F9D8D9"
+  const backgroundColorStyle = {
+    backgroundColor: backgroundColor || "#F1F1F1"
+  };
+  const propStyle = style || {};
+  return (
+    <View
+      style={[tabViewStyles.paletteContainer, backgroundColorStyle, propStyle]}>
+      {tabTitles.map((title, index) => (
+        <Pressable
+          onPress={() => (onPress ? onPress(index) : null)}
+          style={
+            index === selected
+              ? [tabViewStyles.selected, tabColorStyle, tabViewStyles.tabItem]
+              : [
+                  tabViewStyles.unSelected,
+                  backgroundColorStyle,
+                  tabViewStyles.tabItem
+                ]
+          }
+          key={index}>
+          {icons
+            ? (
+            <Image
+              source={icons[index]}
+              style={[
+                tabViewStyles.icon,
+                index === selected
+                  ? tabViewStyles.selectedIcon
+                  : tabViewStyles.unSelectedIcon
+              ]}
+            />
+              )
+            : null}
+          <Text>{title}</Text>
+        </Pressable>
+      ))}
+    </View>
+  );
+};
+
+const tabViewStyles = StyleSheet.create({
+  paletteContainer: {
+    height: 48,
+    backgroundColor: "#E4E4E4",
+    flexDirection: "row",
+    alignItems: "center",
+    borderRadius: 10,
+    padding: 6,
+    marginVertical: 10
+  },
+  tabItem: {
+    borderRadius: 10,
+    flex: 1,
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row"
+  },
+  selected: {
+    shadowColor: "gray",
+    elevation: 10
+  },
+  unSelected: {
+    backgroundColor: "#f1f1f1"
+  },
+  icon: {
+    width: 20,
+    height: 20,
+    resizeMode: "contain",
+    marginRight: 5
+  },
+  selectedIcon: {
+    tintColor: "#000"
+  },
+  unSelectedIcon: {
+    tintColor: "#7C7C7C"
+  }
+});
+
+const Checkbox = props => {
+  return (
+    <Pressable
+      onPress={() => {
+        props.setValue(!props.value);
+      }}
+      style={[checkboxStyles.container, props.style]}>
+      <Image
+        source={
+          props.value
+            ? require("./assets/checkboxIconActive.png")
+            : require("./assets/checkboxIcon.png")
+        }
+        style={[checkboxStyles.checkbox]}
+      />
+    </Pressable>
+  );
+};
+
+const checkboxStyles = StyleSheet.create({
+  container: {
+    height: 20,
+    width: 20
+  },
+  checkbox: {
+    height: "100%",
+    width: "100%"
+  }
+});
+
+const Button = params => {
+  const backgroundColor = params.color || "#000";
+  const textColor = params.textColor || "#fff";
+  const btnStyle = {
+    backgroundColor: backgroundColor,
+    borderColor: params.outlineColor || backgroundColor,
+    borderWidth: 1
+  };
+  const btnText = {
+    color: textColor
   };
   return (
-    <View style={[ConversationElementStyles.messageContainer, boxAlignment]}>
-      <View style={ConversationElementStyles.profileImageContainer}>
-        <Image
-          source={message.sender.image}
-          style={ConversationElementStyles.profileImage}
-        />
-        {(message.sender.isOnline && (
-          <Image
-            source={require("./assets/onlineIcon.png")}
-            style={ConversationElementStyles.activityIcon}
-          />
-        )) ||
-          null}
-      </View>
-      <View
-        style={[
-          ConversationElementStyles.messageTextContainer,
-          messageTextContainer
-        ]}
-      >
-        <Text style={ConversationElementStyles.messageText}>
-          {message.text}
-        </Text>
-        <Text style={ConversationElementStyles.messageTime}>
-          {message.sentTime}
-        </Text>
+    <View style={[buttonStyles.btnContainer, params.style]}>
+      <View style={!params.hideShadow ? buttonStyles.shadowContainer : null}>
+        <Pressable
+          style={[buttonStyles.btn, btnStyle]}
+          onPress={params.onPress}>
+          <Text style={[buttonStyles.btnText, btnText]}>
+            {params.buttonText}
+          </Text>
+          <View style={styles.childrenContainer}>{params.children}</View>
+        </Pressable>
       </View>
     </View>
   );
 };
 
-const ConversationElementStyles = StyleSheet.create({
-  messageContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    margin: 10,
-    justifyContent: "flex-start",
-    marginVertical: 20
+const buttonStyles = StyleSheet.create({
+  btnContainer: {
+    justifyContent: "center"
   },
-  messageTextContainer: {
-    minHeight: 70,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+  shadowContainer: {
+    shadowColor: "rgba(0, 0, 0, 0.5)",
+    elevation: 10,
+    backgroundColor: "#fff",
+    borderRadius: 10
+  },
+  btn: {
+    height: 50,
+    padding: 10,
+    paddingHorizontal: 25,
     borderRadius: 10,
     justifyContent: "center",
-    alignItems: "flex-start",
-    width: "70%"
+    alignItems: "center",
+
+    flexDirection: "row"
   },
-  messageText: {
-    lineHeight: 20,
-    fontSize: 14,
-    color: "#000",
-    fontWeight: "bold",
-    textAlign: "left"
+  btnText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold"
   },
-  activityIcon: {
-    position: "absolute",
-    right: 0,
-    top: 40
-  },
-  messageTime: {
-    position: "absolute",
-    right: 5,
-    bottom: -20,
-    color: "grey",
-    fontSize: 12
+  childrenContainer: {
+    justifyContent: "center",
+    alignItems: "center"
   }
 });
