@@ -1,76 +1,81 @@
 import React, { useState, useEffect } from "react";
-import {
-  Text,
-  StyleSheet,
-  View,
-  TextInput,
-  Pressable,
-  Image
-} from "react-native";
+import { Text, StyleSheet, View, ScrollView, Image } from "react-native";
 
-const CreatePostScreen2 = (params) => {
-  const [caption, setCaption] = useState("");
-  const [tags, setTags] = useState("");
-  const [username, setUsername] = useState("");
-  const [date, setDate] = useState("18 June 2022");
-  const [time, setTime] = useState("13:00 PM");
-  const [images, setImages] = useState([]);
+const PostsFeedScreen = params => {
+  const [posts, setPosts] = useState([]);
   useEffect(() => {
-    setUsername("Username");
-    setDate("18 June 2022");
-    setTime("13:00 PM");
-    setImages([
-      require("./assets/crowdboticsImage.png"),
-      require("./assets/crowdboticsImage.png"),
-      require("./assets/crowdboticsImage.png"),
-      require("./assets/crowdboticsImage.png")
+    setPosts([
+      {
+        id: "1",
+        user: {
+          name: "Username",
+          image: require("./assets/profile1.png")
+        },
+        caption:
+          "Mauris ultrices ut mauris ut elementum nunc. Quisque eu vulputate nunc. Sed odio lectus.",
+        images: [require("./assets/post1.png")],
+        likes: 56,
+        comments: 6
+      },
+      {
+        id: "2",
+        user: {
+          name: "Username",
+          image: require("./assets/profile2.png")
+        },
+        caption:
+          "Mauris ultrices ut mauris ut elementum nunc. Quisque eu vulputate nunc. Sed odio lectus.",
+        images: [require("./assets/post2.png")],
+        likes: 56,
+        comments: 6
+      }
     ]);
   }, []);
   return (
-    <View style={styles.container}>
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputText}>Caption</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={(text) => setCaption(text)}
-          value={caption}
-          placeholder="Enter your caption"
-          placeholderTextColor="#9B9B9B"
-          autoCapitalize="none"
-          autoCorrect={false}
+    <ScrollView style={styles.container}>
+      {posts.map((post, index) => (
+        <PostView post={post} key={index} />
+      ))}
+    </ScrollView>
+  );
+};
+
+const PostView = ({ post }) => {
+  return (
+    <View style={styles.postContainer}>
+      <View style={styles.postHeader}>
+        <Image source={post.user.image} style={styles.profileImage} />
+        <Text style={styles.username}>{post.user.name}</Text>
+        <Image
+          source={require("./assets/menuIcon.png")}
+          style={styles.menuIcon}
         />
       </View>
-      <Text style={styles.inputText}>Add Image</Text>
-      <View style={styles.addImages}>
-        {images.map((image, index) => (
-          <Image source={image} style={styles.image} key={index} />
-        ))}
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputText}>Add Tags</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={(text) => setTags(text)}
-          value={tags}
-          placeholder="Enter your caption"
-          placeholderTextColor="#9B9B9B"
-          autoCapitalize="none"
-          autoCorrect={false}
-        />
-      </View>
-      <View style={styles.userInfo}>
-        <Text>{username}</Text>
-        <View style={styles.dateTime}>
-          <Text>{date}</Text>
-          <Text>, </Text>
-          <Text>{time}</Text>
+      <Image source={post.images[0]} style={styles.postImage} />
+      <View style={styles.postFooter}>
+        <View style={styles.footerSmallblock1}>
+          <Image
+            source={require("./assets/likeIcon.png")}
+            style={styles.likeIcon}
+          />
+          <Text style={styles.footerText}>{post.likes}</Text>
+          <Image
+            source={require("./assets/commentIcon.png")}
+            style={styles.commentIcon}
+          />
+          <Text style={styles.footerText}>{post.comments}</Text>
+        </View>
+        <View style={styles.threeDots}>
+          <Image source={require("./assets/3DotsIcon.png")} />
+        </View>
+        <View style={styles.footerSmallblock2}>
+          <Image
+            source={require("./assets/chatIcon.png")}
+            style={styles.chatIcon}
+          />
         </View>
       </View>
-      <View style={styles.btnContainer}>
-        <Pressable style={styles.btn}>
-          <Text style={styles.btnText}>Submit</Text>
-        </Pressable>
-      </View>
+      <Text style={styles.captionText}>{post.caption}</Text>
     </View>
   );
 };
@@ -78,76 +83,77 @@ const CreatePostScreen2 = (params) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    paddingHorizontal: 20
+    backgroundColor: "#fff"
   },
-  inputContainer: {
-    flexDirection: "column",
-    justifyContent: "center" // marginHorizontal: 5,
+  postContainer: {
+    margin: 10,
+    marginHorizontal: 20
   },
-  inputText: {
-    fontSize: 16,
-    marginLeft: 20,
-    color: "#111112"
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#e6e6e6",
-    borderRadius: 10,
-    padding: 10,
-    paddingLeft: 20,
-    marginVertical: 10,
-    width: "100%",
-    height: 150
-  },
-  addImages: {
-    paddingVertical: 10,
+  postHeader: {
     flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10 // justifyContent: 'space-between',
+  },
+  profileImage: {
+    width: 40,
+    height: 40,
+    borderRadius: 20
+  },
+  username: {
+    fontSize: 14,
+    color: "grey",
+    textAlign: "left",
+    marginLeft: 10,
+    flex: 1,
+    fontWeight: "bold"
+  },
+  menuIcon: {
+    width: 20,
+    height: 20,
+    marginLeft: 10
+  },
+  postImage: {
+    // width: '100%',
+    borderRadius: 10
+  },
+  postFooter: {
+    flexDirection: "row",
+    marginVertical: 10,
+    alignItems: "center"
+  },
+  threeDots: {
+    flex: 1,
     alignItems: "center",
     justifyContent: "center"
   },
-  image: {
-    height: 80,
-    width: 80,
-    marginHorizontal: 5,
-    borderRadius: 10,
-    alignSelf: "center"
-  },
-  list: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    alignItems: "flex-end"
-  },
-  userInfo: {
-    marginTop: 20,
-    paddingHorizontal: 10
-  },
-  dateTime: {
-    flexDirection: "row",
+  footerSmallblock1: {
+    paddingHorizontal: 10,
+    alignItems: "center",
     justifyContent: "flex-start",
-    alignItems: "center"
+    flexDirection: "row",
+    flex: 1
   },
-  btnContainer: {
-    padding: 30,
-    paddingTop: 10,
-    paddingHorizontal: 40,
-    justifyContent: "center",
-    marginTop: 20
+  footerSmallblock2: {
+    paddingHorizontal: 10,
+    alignItems: "center",
+    justifyContent: "flex-end",
+    flexDirection: "row",
+    flex: 1
   },
-  btn: {
-    backgroundColor: "black",
-    height: 50,
-    width: "100%",
-    padding: 10,
-    paddingHorizontal: 25,
-    borderRadius: 10,
-    justifyContent: "center",
-    alignItems: "center"
+  commentIcon: {
+    marginLeft: 20
   },
-  btnText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "bold"
+  footerText: {
+    fontSize: 12,
+    color: "grey",
+    marginBottom: 10,
+    marginLeft: 5
+  },
+  captionText: {
+    fontSize: 14,
+    color: "#6F8BA4",
+    lineHeight: 20,
+    marginHorizontal: 10
   }
 });
-export default CreatePostScreen2;
+export default PostsFeedScreen;
