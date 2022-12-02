@@ -1,237 +1,127 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, Pressable, Image } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  Image,
+  Pressable,
+  ScrollView,
+  TextInput
+} from "react-native";
 
-const LinkedBankAccountsDetails = () => {
-  const [selectedTab, setSelectedTab] = useState(0);
-  const [bankAccounts, setBankAccounts] = useState([]);
-  const [selectedBankAccounts, setSelectedBankAccounts] = useState([]);
+const LinkedBankCredentials = () => {
+  const [bank, setBank] = useState({});
+  const [accountName, setAccountName] = useState("");
+  const [password, setPassword] = useState("");
   useEffect(() => {
-    setBankAccounts([
-      {
-        name: "Account name",
-        balane: "$12,215.25"
-      },
-      {
-        name: "Account name",
-        balane: "$12,215.25"
-      },
-      {
-        name: "Account name",
-        balane: "$12,215.25"
-      },
-      {
-        name: "Account name",
-        balane: "$12,215.25"
-      }
-    ]);
+    setBank({
+      name: "Bank Name",
+      image: require("./assets/userImage.png")
+    });
   }, []);
-  const handleSelect = item => {
-    if (selectedBankAccounts.includes(item)) {
-      setSelectedBankAccounts(selectedBankAccounts.filter(i => i !== item));
-    } else {
-      setSelectedBankAccounts([...selectedBankAccounts, item]);
-    }
-  };
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Account Details</Text>
-      <Text style={styles.subHeading}>Choose</Text>
-      <TabView
-        tabTitles={["Personal", "Investment"]}
-        selected={selectedTab}
-        onPress={setSelectedTab}
-        style={styles.tabView}
-      />
-      <Text style={styles.listText}>List of all accounts</Text>
-      {bankAccounts.map((account, index) => (
-        <View key={index}>
-          <View style={styles.nameContainer}>
-            <Text style={styles.name}>{account.name}</Text>
-            <Checkbox
-              value={selectedBankAccounts.includes(account)}
-              setValue={() => handleSelect(account)}
-            />
-          </View>
-          <View style={styles.balanceContainer}>
-            <Text>Ammount</Text>
-            <Text style={styles.balance}>{account.balane}</Text>
+      <ScrollView>
+        <View style={styles.header}>
+          <Text style={styles.heading}>Bank</Text>
+          <Text style={styles.subHeading}>Credentials</Text>
+        </View>
+        <View style={styles.cardContainer}>
+          <Text style={styles.bankName}>{bank.name}</Text>
+          <Input
+            text="Account Name"
+            value={accountName}
+            onChange={setAccountName}
+          />
+          <Input text="Password" value={password} onChange={setPassword} />
+          <View style={styles.bankImageContainer}>
+            <Image source={bank.image} style={styles.bankImage} />
           </View>
         </View>
-      ))}
-      <Button buttonText="Select Account" style={styles.button} />
+        <Button buttonText="Request withdrawl" style={styles.button} />
+      </ScrollView>
     </View>
   );
 };
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    paddingHorizontal: 20
+    backgroundColor: "#f2f2f2"
+  },
+  header: {
+    padding: 20,
+    marginBottom: 20,
+    backgroundColor: "#fff"
   },
   heading: {
-    fontSize: 20,
-    color: "#000"
+    fontSize: 24
   },
   subHeading: {
-    fontSize: 14,
-    color: "#999999"
+    fontSize: 12,
+    color: "#999"
   },
-  tabView: {
-    width: "70%"
+  cardContainer: {
+    marginHorizontal: 10,
+    marginBottom: 20,
+    marginTop: 30,
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    paddingTop: 60,
+    paddingHorizontal: 10,
+    paddingBottom: 20,
+    elevation: 5,
+    shadowColor: "rgba(0,0,0,0.5)"
   },
-  listText: {
-    marginVertical: 20
+  bankImageContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    padding: 20,
+    backgroundColor: "#f2f2f2",
+    borderRadius: 50,
+    top: -50,
+    left: 138
   },
-  nameContainer: {
+  bankImage: {
+    height: 60,
+    width: 60,
+    borderRadius: 30
+  },
+  bankName: {
+    fontSize: 28,
+    marginBottom: 20,
+    textAlign: "center"
+  },
+  bar: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginVertical: 10,
+    height: 50,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#ccc",
     paddingHorizontal: 10
   },
-  balanceContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingVertical: 12,
-    borderColor: "#ccc",
-    borderWidth: 1,
-    paddingHorizontal: 10,
-    borderRadius: 10
-  },
-  balance: {
-    fontSize: 14,
-    color: "#12D790"
-  },
-  button: {
-    flex: 1,
-    justifyContent: "flex-end",
-    marginBottom: 20
-  }
-});
-
-export default LinkedBankAccountsDetails;
-
-const TabView = ({
-  tabTitles,
-  selected,
-  onPress,
-  tabColor,
-  backgroundColor,
-  style,
-  icons
-}) => {
-  const tabColorStyle = {
-    backgroundColor: tabColor || "#fff"
-  };
-  const backgroundColorStyle = {
-    backgroundColor: backgroundColor || "#F1F1F1"
-  };
-  const propStyle = style || {};
-  return (
-    <View
-      style={[tabViewStyles.paletteContainer, backgroundColorStyle, propStyle]}>
-      {tabTitles.map((title, index) => (
-        <Pressable
-          onPress={() => (onPress ? onPress(index) : null)}
-          style={
-            index === selected
-              ? [tabViewStyles.selected, tabColorStyle, tabViewStyles.tabItem]
-              : [
-                  tabViewStyles.unSelected,
-                  backgroundColorStyle,
-                  tabViewStyles.tabItem
-                ]
-          }
-          key={index}>
-          {icons
-            ? (
-            <Image
-              source={icons[index]}
-              style={[
-                tabViewStyles.icon,
-                index === selected
-                  ? tabViewStyles.selectedIcon
-                  : tabViewStyles.unSelectedIcon
-              ]}
-            />
-              )
-            : null}
-          <Text>{title}</Text>
-        </Pressable>
-      ))}
-    </View>
-  );
-};
-
-const tabViewStyles = StyleSheet.create({
-  paletteContainer: {
-    height: 48,
-    backgroundColor: "#E4E4E4",
-    flexDirection: "row",
-    alignItems: "center",
-    borderRadius: 10,
-    padding: 6,
+  barText: {
+    marginLeft: 10,
     marginVertical: 10
   },
-  tabItem: {
-    borderRadius: 10,
-    flex: 1,
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row"
-  },
-  selected: {
-    shadowColor: "gray",
-    elevation: 10
-  },
-  unSelected: {
-    backgroundColor: "#f1f1f1"
+  boldText: {
+    fontWeight: "bold",
+    fontSize: 18
   },
   icon: {
     width: 20,
     height: 20,
-    resizeMode: "contain",
-    marginRight: 5
+    resizeMode: "contain"
   },
-  selectedIcon: {
-    tintColor: "#000"
-  },
-  unSelectedIcon: {
-    tintColor: "#7C7C7C"
+  button: {
+    marginTop: 80,
+    marginHorizontal: 40
   }
 });
 
-const Checkbox = props => {
-  return (
-    <Pressable
-      onPress={() => {
-        props.setValue(!props.value);
-      }}
-      style={[checkboxStyles.container, props.style]}>
-      <Image
-        source={
-          props.value
-            ? require("./assets/checkboxIconActive.png")
-            : require("./assets/checkboxIcon.png")
-        }
-        style={[checkboxStyles.checkbox]}
-      />
-    </Pressable>
-  );
-};
-
-const checkboxStyles = StyleSheet.create({
-  container: {
-    height: 20,
-    width: 20
-  },
-  checkbox: {
-    height: "100%",
-    width: "100%"
-  }
-});
+export default LinkedBankCredentials;
 
 const Button = params => {
   const backgroundColor = params.color || "#000";
@@ -289,4 +179,93 @@ const buttonStyles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center"
   }
+});
+
+const Input = props => {
+  return (
+    <View style={[inputStyles.inputContainer, props.containerStyle]}>
+      {props.text
+        ? (
+        <Text style={inputStyles.inputText}>{props.text}</Text>
+          )
+        : null}
+
+      <TextInput
+        style={[
+          inputStyles.input,
+          props.style,
+          props.textArea ? inputStyles.textArea : null
+        ]}
+        placeholder={props.placeholder ? props.placeholder : "Enter"}
+        value={props.value}
+        onChangeText={text => props.onChange(text)}
+        placeholderTextColor={
+          props.placeholderTextColor ? props.placeholderTextColor : "#9B9B9B"
+        }
+        editable={props.editable !== false}
+        autoCapitalize="none"
+        autoCorrect={false}
+        multiline={!!props.textArea}
+      />
+      {props.errorText
+        ? (
+        <Text style={inputStyles.error}>{props.errorText}</Text>
+          )
+        : null}
+      {props.icon
+        ? (
+        <Image
+          source={props.icon}
+          style={
+            props.text ? inputStyles.iconWithText : inputStyles.iconWithoutText
+          }
+        />
+          )
+        : null}
+      <View style={styles.children}>{props.children}</View>
+    </View>
+  );
+};
+
+const inputStyles = StyleSheet.create({
+  inputContainer: {
+    flexDirection: "column",
+    justifyContent: "center"
+    // flex: 1
+  },
+  inputText: {
+    fontSize: 14,
+    marginLeft: 20,
+    color: "#111112"
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#e6e6e6",
+    borderRadius: 10,
+    padding: 10,
+    paddingLeft: 20,
+    marginVertical: 10,
+    width: "100%",
+    height: 50
+  },
+  iconWithText: {
+    position: "absolute",
+    right: 30,
+    top: 48,
+    width: 15,
+    height: 15,
+    resizeMode: "contain"
+  },
+  iconWithoutText: {
+    position: "absolute",
+    right: 30,
+    top: 28,
+    width: 15,
+    height: 15,
+    resizeMode: "contain"
+  },
+  textArea: {
+    height: 150
+  },
+  children: {}
 });
