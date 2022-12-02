@@ -1,25 +1,26 @@
 import React from "react";
-import {
-  Text,
-  View,
-  StyleSheet
-} from "react-native";
+import { Text, StyleSheet, View } from "react-native";
 
-const Welcome2 = () => {
+const NotificationPreferenceScreen = (params) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Welcome-2</Text>
+      <Text style={styles.headingTxt}>Notification Preference Screen</Text>
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
+    margin: 20,
     flex: 1,
-    backgroundColor: "#fff"
+    justifyContent: "space-around"
   },
-  heading: {
-    fontSize: 20
+  headingTxt: {
+    fontSize: 24,
+    fontWeight: "bold",
+    padding: 2,
+    marginVertical: 12
   }
 });
 
-export default Welcome2;
+export default NotificationPreferenceScreen;
