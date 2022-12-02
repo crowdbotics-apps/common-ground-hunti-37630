@@ -37,3 +37,4 @@ cb-django-push-notifications = {editable = true, path = "./modules/django_push_n
 cb-django-social-auth = {editable = true, path = "./modules/django_social_auth"}
 cb-firebase-push-notifications = {editable = true, path = "./modules/firebase_push_notifications"}
 cb-payments = {editable = true, path = "./modules/payments"}
+cb-terms-and-conditions = {editable = true, path = "./modules/terms_and_conditions"}

@@ -18,6 +18,7 @@
     "@modules/payments": "file:./modules/payments",
     "@modules/social-login": "file:./modules/social-login/",
     "@modules/splash": "file:./modules/splash/",
+    "@modules/terms-and-conditions": "file:./modules/terms-and-conditions",
     "@modules/user-profile": "file:./modules/user-profile/",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-native-community/push-notification-ios": "^1.8.0",
