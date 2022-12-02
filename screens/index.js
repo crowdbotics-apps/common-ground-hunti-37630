@@ -1,236 +1,238 @@
-import React from "react";
-import { Text, StyleSheet, View, Image, TextInput, TouchableHighlight, ScrollView } from "react-native";
+import React, { useState } from "react";
+import {
+  Text,
+  StyleSheet,
+  View,
+  ScrollView,
+  SafeAreaView,
+  Image,
+  TextInput,
+  Pressable
+} from "react-native";
 
-const PlaceBidScreen = (params) => {
+const AddPaymentMethodScreen = (params) => {
+  const [paymentOption, setPaymentOption] = useState("");
+  const [cardNumber, setCardNumber] = useState("");
+  const [cardExpiry, setCardExpiry] = useState("");
+  const [cvv, setCvv] = useState("");
+  const [name, setName] = useState("");
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.header}>
-        <Image source={require("./assets/back.png")} style={styles.back} />
-        <Text style={styles.heading}>Place a bid</Text>
-        <Text />
-      </View>
-      <Text style={styles.subHeading}>Current Balance</Text>
-      <View style={styles.totalAmount}>
-        <View style={styles.amountText}>
-          <Text style={styles.priceText}>1256 ETH</Text>
-          <Text style={styles.walletAdd}>Wallet address: 0x25Ddgf546548564</Text>
+    <SafeAreaView style={styles.container}>
+      <ScrollView>
+        <View style={styles.header}>
+          <View style={styles.paletteContainer}>
+            <View style={styles.unSelected}></View>
+            <View style={styles.unSelected}></View>
+            <View style={styles.selected}></View>
+          </View>
+          <Image
+            source={require("./assets/3Dots.png")}
+            style={styles.threeDots}
+          />
         </View>
-        <Image source={require("./assets/eth.png")} style={styles.ethImg} />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.mr10}>Name of the NFT</Text>
-        <Input placeholder="Enter" />
-      </View>
-
-      <Text style={styles.mt10}>Enter quantity - Available</Text>
-      <View style={[styles.chooseContainer, { justifyContent: "space-evenly" }]}>
-        <Image source={require("./assets/minus.png")} style={styles.priceImg} />
-        <TextInput placeholder='2.75 ETH' placeholderTextColor="#000" style={styles.inputPrice} />
-        <Image source={require("./assets/plus.png")} style={styles.priceImg} />
-      </View>
-      <View style={styles.bidContainer}>
-        <Text style={styles.bidText}>You must bid higher than 2.75 ETH</Text>
-      </View>
-      <Text style={styles.mt10}>Amount of bid</Text>
-      <View style={[styles.chooseContainer, { justifyContent: "space-evenly" }]}>
-        <Image source={require("./assets/minus.png")} style={styles.priceImg} />
-        <TextInput placeholder='1' placeholderTextColor="#000" style={styles.inputPrice} />
-        <Image source={require("./assets/plus.png")} style={styles.priceImg} />
-      </View>
-      <View style={styles.bidContainer}>
-        <Text style={styles.bidText}>Quantity</Text>
-      </View>
-
-      <View style={styles.feeContainer}>
-      <View>
-        <Text style={[styles.mr10, { marginLeft: 15 }]}>Service fee</Text>
-        <View style={styles.feeSection}>
-          <Text>0.25 ETF</Text>
+        <View style={styles.inputs}>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputText}>Payment Options</Text>
+            <TextInput
+              style={styles.input}
+              onChangeText={(text) => setPaymentOption(text)}
+              value={paymentOption}
+              placeholder="Master Card"
+              placeholderTextColor="#9B9B9B"
+              autoCapitalize="none"
+              autoCorrect={false}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputText}>Card Number</Text>
+            <TextInput
+              style={styles.input}
+              onChangeText={(text) => setCardNumber(text)}
+              value={cardNumber}
+              placeholder="Enter your Card Number"
+              placeholderTextColor="#9B9B9B"
+              autoCapitalize="none"
+              autoCorrect={false}
+            />
+          </View>
+          <View style={styles.halfInputs}>
+            <View style={styles.inputContainer}>
+              <Text style={styles.inputText}>Expiration Date</Text>
+              <TextInput
+                style={[styles.input, styles.input1]}
+                onChangeText={(text) => setCardExpiry(text)}
+                value={cardExpiry}
+                placeholder="Enter your last name"
+                placeholderTextColor="#9B9B9B"
+                autoCapitalize="none"
+                autoCorrect={false}
+              />
+            </View>
+            <View style={styles.inputContainer}>
+              <Text style={styles.inputText}>CVV</Text>
+              <TextInput
+                style={[styles.input, styles.input2]}
+                onChangeText={(text) => setCvv(text)}
+                value={cvv}
+                placeholder="CVV"
+                placeholderTextColor="#9B9B9B"
+                autoCapitalize="none"
+                autoCorrect={false}
+              />
+            </View>
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputText}>Card Holder Name</Text>
+            <TextInput
+              style={styles.input}
+              onChangeText={(text) => setName(text)}
+              value={name}
+              placeholder="Username"
+              placeholderTextColor="#9B9B9B"
+              autoCapitalize="none"
+              autoCorrect={false}
+            />
+          </View>
+          <View style={styles.checkBoxContainer}>
+            <Text style={styles.inputText}>Save this card details</Text>
+            <Image
+              source={require("./assets/checkbox.png")}
+              style={styles.checkBox}
+            />
+          </View>
         </View>
-      </View>
-      <View>
-        <Text style={[styles.mr10, { marginLeft: 15 }]}>You will pay </Text>
-        <View style={styles.feeSection}>
-          <Text>3.14 ETH</Text>
+        <View style={styles.btnContainer}>
+          <Pressable style={styles.btn}>
+            <Text style={styles.btnText}>Continue</Text>
+            <Image
+              source={require("./assets/arrow.png")}
+              style={styles.arrow}
+            />
+          </Pressable>
         </View>
-      </View>
-      </View>
-
-      <View style={styles.buttonBottom}>
-        <Button>Place a Bid</Button>
-        <Button backgroundColor="#fff" color="#000" borderWidth={1} >
-          Cancel
-        </Button>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    paddingHorizontal: 10
+    backgroundColor: "#fff"
   },
   header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginHorizontal: 30,
-    marginTop: 10,
-    marginBottom: 40
+    padding: 20
   },
-  back: { width: 11.25, height: 20, resizeMode: "contain", marginLeft: -20 },
-  heading: { fontSize: 16, color: "#000", marginLeft: 20 },
-  subHeading: { fontSize: 16, fontWeight: "400", marginLeft: 13 },
-  totalAmount: {
-    paddingHorizontal: 15,
-    borderRadius: 10,
-    display: "flex",
+  paletteContainer: {
     flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    backgroundColor: "#F1F1F1",
+    height: 45,
     width: "100%",
-    marginTop: 5
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "space-around",
+    paddingHorizontal: 5
   },
-  amountText: {
-    display: "flex",
-    flexDirection: "column"
+  selected: {
+    backgroundColor: "#fff",
+    height: "80%",
+    flex: 1,
+    padding: 10,
+    paddingHorizontal: 25,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#e6e6e6",
+    marginHorizontal: 5
   },
-  priceText: {
-    fontSize: 36,
-    fontWeight: "400",
-    marginBottom: 5
+  unSelected: {
+    height: "80%",
+    flex: 1,
+    marginHorizontal: 5,
+    backgroundColor: "#12D790",
+    padding: 10,
+    paddingHorizontal: 25,
+    borderRadius: 10
   },
-  walletAdd: {
-    fontSize: 12,
-    fontWeight: "400"
+  threeDots: {
+    alignSelf: "center",
+    marginTop: 20
   },
-  ethImg: {
-    height: 52,
-    width: 52,
-    resizeMode: "contain"
+  inputs: {
+    paddingHorizontal: 20,
+    justifyContent: "center"
   },
   inputContainer: {
-    marginTop: 25
+    flexDirection: "column",
+    flex: 1,
+    justifyContent: "center"
   },
-  mr10: {
-    marginLeft: 25,
-    marginBottom: 10
+  inputText: {
+    fontSize: 14,
+    marginLeft: 20
   },
-  mt10: {
-    marginLeft: 25,
-    marginBottom: 10,
-    marginTop: 10
+  input: {
+    borderWidth: 1,
+    borderColor: "#e6e6e6",
+    borderRadius: 10,
+    padding: 10,
+    paddingLeft: 20,
+    marginVertical: 10,
+    width: "100%"
   },
-  chooseContainer: {
+  halfInputs: {
+    justifyContent: "space-between",
+    flexDirection: "row",
+    flex: 1
+  },
+  input1: {
+    borderRightWidth: 0,
+    borderRightColor: "#fff",
+    borderTopRightRadius: 0,
+    borderBottomRightRadius: 0,
+    flex: 0.8
+  },
+  input2: {
+    borderLeftWidth: 0,
+    borderLeftColor: "#fff",
+    borderTopLeftRadius: 0,
+    borderBottomLeftRadius: 0,
+    flex: 0.2
+  },
+  checkBoxContainer: {
+    borderWidth: 1,
+    borderColor: "#e6e6e6",
+    padding: 10,
+    marginVertical: 10,
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
-    height: 55,
-    borderColor: "#C4C4C4",
-    borderWidth: 1,
-    borderRadius: 10,
-    paddingLeft: 10,
-    paddingRight: 20,
-    marginHorizontal: 5
+    borderRadius: 10
   },
-  priceImg: { width: 27, height: 27, resizeMode: "contain" },
-  inputPrice: { fontSize: 16 },
-  bidContainer: { justifyContent: "center", alignItems: "center", marginTop: 3 },
-  bidText: { fontSize: 12, color: "#939396" },
-  feeContainer: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", paddingHorizontal: 5, marginTop: 10 },
-  feeSection: {
+  btnContainer: {
+    padding: 30,
+    paddingTop: 10,
+    paddingHorizontal: 40,
     justifyContent: "center",
-    alignItems: "flex-start",
-    height: 55,
-    borderColor: "#C4C4C4",
-    borderWidth: 1,
-    borderRadius: 10,
-    paddingLeft: 10,
-    paddingRight: 20,
-    width: 170
-  },
-  buttonBottom: {
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    alignItems: "center",
-    marginBottom: 10,
     marginTop: 20
-  }
-});
-
-const Input = (props) => {
-  return (
-    <View>
-      <TextInput
-        style={textStyles.input}
-        placeholder={props.placeholder}
-        value={props.value}
-        onChangeText={(num) => props.setValue(num)}
-        placeholderTextColor="#000"
-        editable={props.editable !== false}
-      />
-      {props.errorText ? <Text style={textStyles.error}>{props.errorText}</Text> : null}
-    </View>
-  );
-};
-
-const textStyles = StyleSheet.create({
-
-  input: {
-    backgroundColor: "#fff",
-    height: 53,
-    borderColor: "#C4C4C4",
-    color: "#000",
-    borderRadius: 10,
-    fontSize: 14,
-    borderWidth: 1,
-    paddingHorizontal: 10,
-    marginHorizontal: 5
   },
-  error: {
-    fontSize: 13,
-    color: "#FA060D",
-    paddingTop: 8
-  }
-});
-
-const Button = (props) => {
-  return (
-    <TouchableHighlight onPress={props.onPress} underlayColor="#DDDDDD">
-      <View
-        style={[
-          btnStyles.button,
-          {
-            backgroundColor: props.backgroundColor ? props.backgroundColor : "#000000",
-            height: props.height ? props.height : 49,
-            borderWidth: props.borderWidth ? props.borderWidth : 0,
-            borderColor: props.borderColor ? props.borderColor : "#000000"
-          }
-        ]}
-      >
-        <Text style={[btnStyles.text, { color: props.color ? props.color : "#ffffff" }]}>
-          {props.children}
-        </Text>
-      </View>
-    </TouchableHighlight>
-  );
-};
-
-const btnStyles = StyleSheet.create({
-  button: {
-    display: "flex",
+  btn: {
+    backgroundColor: "black",
+    height: 50,
+    width: "100%",
+    padding: 10,
+    paddingHorizontal: 25,
+    borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 10,
-    marginVertical: 10,
-    width: 150
+    flexDirection: "row"
   },
-  text: {
-    fontWeight: "bold",
-    fontSize: 15
+  arrow: {
+    marginLeft: 10,
+    marginTop: 2
+  },
+  btnText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold"
   }
 });
-
-export default PlaceBidScreen;
+export default AddPaymentMethodScreen;
